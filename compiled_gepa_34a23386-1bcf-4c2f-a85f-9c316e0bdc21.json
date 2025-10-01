@@ -1,0 +1,28 @@
+{
+  "generate_classification": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "Given a `description` field containing a sentence from a research paper abstract, classify it into one of the following categories and output only the category label as the `target`:\n\n**Categories:**\n- BACKGROUND: Contextual information, established knowledge, problem statements, or general facts that set up the research context (e.g., \"Although opioids are effective treatments for postoperative pain, they contribute to the delayed recovery of gastrointestinal function.\")\n- OBJECTIVE: Research aims, goals, purposes, hypotheses, or what the study was designed to investigate (e.g., \"This study was designed to assess...\", \"The aim was to investigate...\", \"To determine whether...\")\n- METHODS: Descriptions of experimental procedures, data collection methods, study protocols, analytical approaches, statistical methods, or control group descriptions (e.g., \"Blood samples were collected...\", \"This fifth group served as a control...\", \"mean (+/- SD) was used\")\n- RESULTS: Findings, outcomes, statistical data, success rates, observed effects, or factual outcomes from the study (e.g., \"The success rate was 70.4%...\", \"Follow-up coronary angiography was performed in 108 patients...\", \"a significant improvement in terms of OS (p = 0.02)\")\n- CONCLUSIONS: Final interpretations, implications, recommendations, suggestions, or what the authors conclude from their findings. These often contain interpretive language and speculation (e.g., \"From this finding, we conclude that...\", \"may be associated with...\")\n\n**Critical Classification Guidelines:**\n\n1. **OBJECTIVE vs BACKGROUND**: \n   - Sentences describing what a study \"was designed to,\" \"aimed to,\" \"evaluated whether,\" or starting with \"To determine/investigate\" are OBJECTIVE, not BACKGROUND\n   - \"There is a need to...\" statements are OBJECTIVE (expressing research purpose), not BACKGROUND\n   - Study purpose statements are always OBJECTIVE regardless of their position in the abstract\n\n2. **RESULTS vs CONCLUSIONS**: \n   - RESULTS report factual findings, statistical outcomes, and observed data without interpretation\n   - CONCLUSIONS contain interpretive statements with words like \"may be,\" \"suggest,\" \"conclude,\" \"might,\" or implications drawn from results\n   - Statements with \"evidence suggesting\" are CONCLUSIONS, not BACKGROUND\n\n3. **Key Phrases for OBJECTIVE**: \n   - \"There is a need to...\"\n   - \"This study evaluated whether...\"\n   - \"was designed to assess...\"\n   - \"The aim was to...\"\n   - \"To determine...\"\n   - \"This clinical study was designed to assess whether...\"\n\n4. **Key Phrases for CONCLUSIONS**: \n   - \"we conclude that...\"\n   - \"may be associated with...\"\n   - \"might benefit from...\"\n   - \"suggest that...\"\n   - \"evidence suggesting...\"\n   - Any speculative or interpretive language\n\n5. **METHODS indicators**: \n   - Descriptions of procedures, controls, statistical approaches\n   - Data collection timing and methods\n   - Analytical methods and statistical significance thresholds\n   - Control group descriptions\n\n6. **Focus on primary purpose**: Classify based on the main function of the sentence in the research narrative, not just its position in the abstract\n\n**Common Misclassification Patterns to Avoid:**\n- Study objectives stated as \"This study was designed to...\" should be OBJECTIVE, not BACKGROUND\n- \"There is a need to identify...\" statements are OBJECTIVE, not BACKGROUND\n- Statements with \"may be associated with\" or similar speculative language are CONCLUSIONS, not RESULTS\n- \"Evidence suggesting\" statements are CONCLUSIONS, not BACKGROUND\n- Research aims are always OBJECTIVE regardless of how they are phrased\n\n**Classification Strategy:**\n1. Look for explicit objective markers first (study aims, purposes, \"to determine\")\n2. Check for speculative/interpretive language indicating CONCLUSIONS\n3. Identify factual data reporting for RESULTS\n4. Look for procedural descriptions for METHODS\n5. Default to BACKGROUND only for established knowledge or context-setting information\n\nOutput only the category label (BACKGROUND, OBJECTIVE, METHODS, RESULTS, or CONCLUSIONS) without any additional text or explanation.",
+      "fields": [
+        {
+          "prefix": "Description:",
+          "description": "${description}"
+        },
+        {
+          "prefix": "Target:",
+          "description": "${target}"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.0.3",
+      "cloudpickle": "3.0"
+    }
+  }
+}
